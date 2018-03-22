@@ -1,24 +1,153 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Heus</title>
-	<link rel="stylesheet" href="">
-	<style type="text/css" media="screen">
-		body{
-			cursor: default;
-			font-size: 12pt;
-			font-family: Arial;
-		}
-	</style>
-</head>
-<body onload="update()">
-	<div id="receiveData" >
-		
-	</div>
-</body>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>GUI </title>
+		<link rel="stylesheet" href="vendor/bootstrap-3.3.7-dist/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="css/chart.css">
+		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<!-- 
+		<script src="./vendor/Highcharts-6.0.7/code/highcharts.js"></script>
+		<script src="./vendor/Highcharts-6.0.7/code/highcharts-3d.js"></script>
+		<script src="./vendor/Highcharts-6.0.7/code/exporting.js"></script>
+	 -->	<!-- <link rel="stylesheet" href="./vendor/Highcharts-6.0.7/code/css/highcharts.css"> -->
+	</head>
+	<body onload="update()">
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">Heus</a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="/">Home</a></li>
+						<li><a href="#about" data-toggle="modal" data-target="#about">About</a></li>
+					</ul>
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+		</nav>
+		<div class="container">
+			<br>
+			<br>
+			<br>
+			<!-- untuk memanggil raw data -->
+			<div class="table-responsive">
+				<table class="table table-condensed">
+					<thead>
+						<tr>
+							<th>Data Raw</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="info">
+							<td id="receiveData"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Header</th>
+							<th>Ketinggian</th>
+							<th>Temp.</th>
+							<th>Humid.</th>
+							<th>Pressure</th>
+							<th>Latitude</th>
+							<th>Longitude</th>
+							<th>CO2</th>
+							<th>x</th>
+							<th>y</th>
+							<th>z</th>
+							<th>IMG</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td id="head">data</td>
+							<td id="ketinggian">data </td>
+							<td id="temperature">data</td>
+							<td id="humidity">data</td>
+							<td id="pressure">data</td>
+							<td id="latitude">data</td>
+							<td id="longitude">data</td>
+							<td id="co2">data</td>
+							<td id="x">data</td>
+							<td id="y">data</td>
+							<td id="z">data</td>
+							<td id="IMG">data</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 
-<script type="text/javascript" src="/socket.io/socket.io.js"></script>
-<script type="text/javascript" src="app/data.js"></script>
+
+			<div class="row">
+				<div class="col-md-4 text-center">
+					<h4>Grafik Temperature</h4>
+					<div id="grafikTemperature" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+				</div>
+				<div class="col-md-4 text-center">
+					<h4>Grafik Kelembaban</h4>
+					<div id="grafikKelembaban" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+				</div>
+				<div class="col-md-4 text-center">
+					<h4>Grafik Ketinggian</h4>
+					<div id="grafikKetinggian" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+				</div>
+				
+			</div>
+
+			<div>
+				<div id="graph">
+					
+				</div>
+			</div>
+			<div>
+				<div id="coordinate" style=" margin-top:100px ; width:100%; height:500px;"> </div>
+			</div>
+
+			<div class="col-md-6 text-center">	
+				<h3>Kompas</h3>
+				<canvas id="gaugeArahAngin"> </canvas>
+			</div>
+			<div class="col-md-6 text-center">	
+				<h3>Tekanan</h3>
+				<canvas id="gaugeTekanan"> </canvas>
+			</div>
+
+		</div>
+		
+		
+
+		<footer class="panel-footer" style="margin-top:50px">
+			<p class="text-center">	
+			Heus
+			</p>
+		</footer>
+	</body>
+	<script src="vendor/jquery/jquery-3.3.1.min.js"></script>
+	<script src="vendor/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+	<script src="vendor/Highcharts-6.0.7/code/highcharts.js"></script>
+	<script src="vendor/sprite3d/Sprite3D.js"></script>
+
+	<!-- GOogle Maps -->
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+
+	<!-- 	Gauge -->
+	<script src="vendor/gauge/gauge.min.js">	</script>
+
+
+	<script src="/socket.io/socket.io.js"></script> <!-- Import socket io -->
+	<script src="app/data.js"></script> <!-- import data js -->
 </html>

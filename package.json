@@ -20,6 +20,10 @@
   },
   "homepage": "https://github.com/thirafi98/nodejs-wian#readme",
   "dependencies": {
-    "serialport": "^6.0.5"
+    "bootstrap": "^4.0.0",
+    "canvas-gauges": "^2.1.4",
+    "express": "^4.16.2",
+    "serialport": "^6.0.5",
+    "socket.io": "^2.0.4"
   }
 }
