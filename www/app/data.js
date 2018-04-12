@@ -7,13 +7,6 @@ ehwat = 0;
 
 
 
-var pointCount = 35;
-var i, r;
-
-var x = [];
-var y = [];
-var z = [];
-var c = [];
 //parameter buat map
 var param = {
         lintang 	: -6.9739024 , //Bandung
@@ -131,80 +124,60 @@ var gaugeTekanan = new LinearGauge({
     }).draw();
 gaugeTekanan.draw();
 
+var pointCount = 20;
+var i, r;
+
+var x = [];
+var y = [];
+var z = [];
+var c = [];
 
 var stage = Sprite3D.stage(document.querySelector("#sikap"));
             // "verbose" version
 var box = Sprite3D.box( 421, 200, 5, "cube" ); //lebar tinggi panjang
 
-
+//sesi mengimpor dari index.js ke index.html
 function update(){
     	const socket = io.connect();
 
     	socket.on('socketData', (data)=>{
     		console.log(data);
 
-    		document.getElementById("receiveData").innerHTML = data.datahasil;
+    		document.getElementById("receiveData").innerHTML = data.datashow;
 
-    		$( "#head" ).html(data.datahasil[0]) ;
-    		$( "#ketinggian" ).html(data.datahasil[1]) ;
-    		$( "#temperature" ).html(data.datahasil[2]) ;
-    		$( "#humidity" ).html(data.datahasil[3]) ;
-    		$( "#pressure" ).html(data.datahasil[4]) ;
-    		$( "#latitude" ).html(data.datahasil[5]) ;
-    		$( "#longitude" ).html(data.datahasil[6]) ;
-    		$( "#co2" ).html(data.datahasil[7]) ;
-    		$( "#x" ).html(data.datahasil[8]) ;
-    		$( "#y" ).html(data.datahasil[9]) ;
-    		$( "#z" ).html(data.datahasil[10]) ;
-    		$( "#IMG" ).html(data.datahasil[11]) ;
+    		$( "#head" ).html(data.datashow[0]) ;
+    		$( "#ketinggian" ).html(data.datashow[1]) ;
+    		$( "#temperature" ).html(data.datashow[2]) ;
+    		$( "#humidity" ).html(data.datashow[3]) ;
+    		$( "#pressure" ).html(data.datashow[4]) ;
+    		$( "#latitude" ).html(data.datashow[5]) ;
+    		$( "#longitude" ).html(data.datashow[6]) ;
+    		$( "#co2" ).html(data.datashow[7]) ;
+    		$( "#x" ).html(data.datashow[8]) ;
+    		$( "#y" ).html(data.datashow[9]) ;
+    		$( "#z" ).html(data.datashow[10]) ;
+    		$( "#IMG" ).html(data.datashow[11]) ;
 
-    		temperature = parseInt(data.datahasil[2]);
-    		kelembaban = parseInt(data.datahasil[3]);
-    		heights = parseInt(data.datahasil[1]);
-    		tekanan = parseInt(data.datahasil[4]);
+    		temperature = parseInt(data.datashow[2]);
+    		kelembaban = parseInt(data.datashow[3]);
+    		heights = parseInt(data.datashow[1]);
+    		tekanan = parseInt(data.datashow[4]);
 
-    		param.setLintang(data.datahasil[5]);
-    		param.setBujur(data.datahasil[6]);
+    		param.setLintang(data.datashow[5]);
+    		param.setBujur(data.datashow[6]);
 		 arahAngin = Math.floor(Math.random() * (360 - 0 + 1)) + 0;; //random karena belum ada fungsi arah angin dari data gps
 		 gaugeArahAngin.value = arahAngin;
 		 
 		 gaugeTekanan.value = tekanan;
 		 
 
+		
+
 
 		 //manggil maps
 		 // redraw(param.getLintang(), param.getBujur());
 		});
-};
-
-
-for(i = 0; i < pointCount; i++) 
-{
-	r = 10 * Math.cos(i / 10);
-	x.push(r * Math.cos(i));
-	y.push(r * Math.sin(i));
-	z.push(i);
-	c.push(i)
-}
-
-Plotly.plot('graph', [{
-	type: 'scatter3d',
-	mode: 'lines+markers',
-	x: x,
-	y: y,
-	z: z,
-	line: {
-		width: 6,
-		color: c,
-		colorscale: "Viridis"},
-		marker: {
-			size: 3.5,
-			color: c,
-			colorscale: "Greens",
-			cmin: -20,
-			cmax: 50
-		}},                  
-]);
+};//sesi mengimpor dari index.js ke index.html selesai
 
 
 
